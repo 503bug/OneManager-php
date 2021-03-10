@@ -458,8 +458,8 @@ function compareadminsha1($adminsha1, $timestamp, $pass)
 {
     if (!is_numeric($timestamp)) return 'Timestamp error';
     if (abs(time()-$timestamp) > 5*60) return 'The timestamp in server is ' . time() . '(' . date("i:s") . '),<br>and your posted timestamp is ' . $_POST['timestamp'];
-    if ($adminsha1 == sha1($timestamp . $pass)) return 'Error admin password.';
-    else return '';
+    if ($adminsha1 == sha1($timestamp . $pass)) return '';
+    else return 'Error admin password.';
 }
 
 function proxy_replace_domain($url, $domainforproxy)
