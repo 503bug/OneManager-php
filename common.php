@@ -168,9 +168,10 @@ function main($path)
         }
         if (isset($_POST['password1'])) {
             $compareresult = compareadminsha1($_POST['password1'], $_POST['timestamp'], getConfig('admin'));
-        //if ($compareresult=='') {
-            return adminform($compareresult, 'admin', adminpass2cookie('admin', getConfig('admin')), $url);
-        } else return adminform(' ');
+            if ($compareresult=='') {
+                return adminform('admin', adminpass2cookie('admin', getConfig('admin')), $url);
+            } else return adminform($compareresult);
+        } else return adminform();
     }
     if ( isset($_COOKIE['admin'])&&compareadminmd5($_COOKIE['admin'], 'admin', getConfig('admin')) ) {
         $_SERVER['admin']=1;
@@ -870,11 +871,10 @@ function time_format($ISO)
     return date('Y-m-d H:i:s',strtotime($ISO . " UTC"));
 }
 
-function adminform($error1, $name = '', $pass = '', $path = '')
+function adminform($name = '', $pass = '', $path = '')
 {
     $html = '<html><head><title>' . getconstStr('AdminLogin') . '</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"></head>';
-    //if ($name!=''&&$pass!='') {
-    if ($error1=='') {
+    if ($name=='admin'&&$pass!='') {
         $html .= '<meta http-equiv="refresh" content="3;URL=' . $path . '">
         <body>' . getconstStr('LoginSuccess') . '</body></html>';
         $statusCode = 201;
@@ -887,6 +887,7 @@ function adminform($error1, $name = '', $pass = '', $path = '')
 <body>
     <div>
     <center><h4>' . getconstStr('InputPassword') . '</h4>
+    ' . $admin . '
     <form action="" method="post" onsubmit="return sha1loginpass(this);">
         <div>
             <input id="password1" name="password1" type="password"/>
@@ -896,7 +897,6 @@ function adminform($error1, $name = '', $pass = '', $path = '')
     </form>
     </center>
     </div>
-    ' . $error1 . '
 </body>';
     $html .= '
 <script src="https://cdn.bootcdn.net/ajax/libs/js-sha1/0.6.0/sha1.min.js"></script>
