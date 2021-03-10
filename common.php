@@ -887,7 +887,7 @@ function adminform($name = '', $pass = '', $path = '')
 <body>
     <div>
     <center><h4>' . getconstStr('InputPassword') . '</h4>
-    ' . $admin . '
+    ' . $name . '
     <form action="" method="post" onsubmit="return sha1loginpass(this);">
         <div>
             <input id="password1" name="password1" type="password"/>
