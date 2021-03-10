@@ -456,10 +456,10 @@ function compareadminmd5($admincookie, $name, $pass)
 }
 function compareadminsha1($adminsha1, $timestamp, $pass)
 {
-    if (!is_numeric($timestamp)) return 'Timestamp error';
-    if (abs(time()-$timestamp) > 5*60) return 'The timestamp in server is ' . time() . '(' . date("i:s") . '),<br>and your posted timestamp is ' . $_POST['timestamp'];
+    if (!is_numeric($timestamp)) return 'Timestamp not Number';
+    if (abs(time()-$timestamp) > 5*60) return 'The timestamp in server is ' . time() . '(' . date("Y-m-d H:i:s") . '),<br>and your posted timestamp is ' . $_POST['timestamp'] . '(' . date("Y-m-d H:i:s", $_POST['timestamp']) . ')';
     if ($adminsha1 == sha1($timestamp . $pass)) return '';
-    else return 'Error admin password.';
+    else return 'Error password';
 }
 
 function proxy_replace_domain($url, $domainforproxy)
